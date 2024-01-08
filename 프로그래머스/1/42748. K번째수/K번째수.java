@@ -19,15 +19,15 @@ class Solution {
 
     public static int quickSelect(int[] arr, int left, int right, int k) {
 
-        while(left <= right) {
+        if(left <= right) {
             int pivot = partition(arr, left, right);
 
             if(pivot == k) {
                 return arr[pivot];
             } else if (pivot < k) {
-                left = pivot + 1;
+                return quickSelect(arr, pivot + 1, right, k);
             } else {
-                right = pivot - 1;
+                return quickSelect(arr, left, pivot - 1, k);
             }
         }
         return -1;
@@ -35,32 +35,19 @@ class Solution {
 
     public static int partition(int[] arr, int left, int right) {
 
-    //     int mid = arr[(left + right) / 2];
+        int mid = arr[(left + right) / 2];
 
-    //     while(left < right) {
-    //         while(arr[left] < mid) {
-    //             left++;
-    //         }
-    //         while(mid < arr[right]) {
-    //             right--;
-    //         }
-    //         swap(arr, left, right);
-                                                  
-    //     }
-    //     return left;
-
-        int pivot = arr[right];
-        int i = left - 1;
-
-        for(int j=left; j<right; j++) {
-            if(arr[j] < pivot) {
-                i++;
-                swap(arr, i, j);
+        while(left < right) {
+            while(arr[left] < mid) {
+                left++;
             }
+            while(mid < arr[right]) {
+                right--;
+            }
+            swap(arr, left, right);
+                                                  
         }
-        swap(arr, i+1, right);
-
-        return i+1;
+        return left;
     }
 
     public static void swap(int[] arr, int i, int j) {
@@ -79,7 +66,6 @@ class Solution {
         for(int i : answer) {
             System.out.print(i + " ");
         }
-        
     }
 }
 
