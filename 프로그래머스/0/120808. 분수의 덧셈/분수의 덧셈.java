@@ -11,10 +11,8 @@ class Solution {
         // 결과값이 약분 가능한지 최대공약수 조회 (1이 아니면 약분 가능)
         int answerGCD = findGCD(answer[0] > answer[1] ? answer[0] : answer[1], answer[0] < answer[1] ? answer[0] : answer[1]);
 
-        if(answerGCD != 1) {
-            answer[0] = answer[0] / answerGCD;
-            answer[1] = answer[1] / answerGCD;
-        }
+        answer[0] = answer[0] / answerGCD;
+        answer[1] = answer[1] / answerGCD;
         
         return answer;
     }
