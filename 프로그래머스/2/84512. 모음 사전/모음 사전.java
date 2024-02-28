@@ -4,7 +4,7 @@ class Solution {
     public static ArrayList<String> list;
 
     public int solution(String word) {
-        int answer = 0;
+        
         String[] arr = {"A", "E", "I", "O", "U"};   // 준비된 단어
         list = new ArrayList<>();                   // 단어사전 초기화
         
@@ -14,12 +14,7 @@ class Solution {
         }
 
         // 일치하는 단어가 몇번째인지 찾는다.
-        for(int i=0; i<list.size(); i++) {
-            answer++;
-            if(list.get(i).equals(word)) break;
-        }
-
-        return answer;
+        return list.indexOf(word)+1;
     }
 
     public static void dfs(String str, String[] arr, String word) {
