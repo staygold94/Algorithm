@@ -3,26 +3,27 @@ import java.util.*;
 class Solution {
     public int solution(int[] people, int limit) {
         int answer = 0; // 보트 나르는 횟수
-        int idx = 0;    // 가벼운 사람 인덱스
+        int idx = 0; // 실어야 하는 사람 인덱스
 
         // 몸무게 오름차순 정렬
         Arrays.sort(people);
+        int sum = 0;
 
-        // 무거운 사람부터 인덱스 사람까지 반복문을 돈다.
-        for(int i=people.length-1; i>=idx; i--) {
-            // 가장 가벼운 사람 + 무거운 사람 조합 <= 무게제한 이라면
-            // 둘다 나르고, idx 값을 변경한다.
-            if(people[i] + people[idx] <= limit) {
-                answer++;
-                idx++;
+        // 가벼운 사람부터 마지막 사람까지 반복문을 돈다.
+        while(idx < people.length) {
+            // 배에 탈 수 있다면
+            if(people[idx] <= limit - sum) {
+                sum += people[idx]; // 현재 무게 추가
+                idx++;              // 다음 사람 인덱스
 
-            // 무게를 초과한다면 무거운 사람만 나른다.
+            // 배에 탈 수 없다면
             } else {
                 answer++;   // 보트 나르는 횟수 증감
+                sum = 0;    // 현재 무게 초기화
             }
         }
 
         // 배에 현재 실린 사람이 있다면 증감하여 리턴
-        return answer;
+        return sum == 0 ? answer : ++answer;
     }
 }
