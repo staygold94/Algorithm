@@ -1,0 +1,14 @@
+-- 코드를 입력하세요
+SELECT
+    CART_ID
+FROM (
+    SELECT
+    CART_ID
+    , NAME
+    FROM CART_PRODUCTS 
+    GROUP BY CART_ID, NAME
+    HAVING NAME IN ('Milk', 'Yogurt')
+) T1
+GROUP BY CART_ID
+HAVING COUNT(NAME) >= 2
+ORDER BY CART_ID
