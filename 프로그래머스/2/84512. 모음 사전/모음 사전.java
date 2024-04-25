@@ -1,30 +1,29 @@
 import java.util.*;
 
 class Solution {
-    public static ArrayList<String> list;
-
+    List<String> list;
     public int solution(String word) {
-        
-        String[] arr = {"A", "E", "I", "O", "U"};   // 준비된 단어
-        list = new ArrayList<>();                   // 단어사전 초기화
-        
-        // 준비된 단어에 대해 재귀 호출하여 단어사전을 채운다.
+        String[] arr = {"A", "E", "I", "O", "U"};
+        list = new ArrayList<>();
+
+        // 완전탐색 하여 사전 구성
         for(int i=0; i<arr.length; i++) {
-            dfs(arr[i], arr, word);
+            dfs(arr, arr[i], 0);    // 단어의 구성이 dfs에 가까운 형태이므로 dfs로 해결
         }
 
-        // 일치하는 단어가 몇번째인지 찾는다.
-        return list.indexOf(word)+1;
+        // 주어진 word 순서를 리턴하는 함수 indexOf 사용
+        return list.indexOf(word) + 1;
     }
 
-    public static void dfs(String str, String[] arr, String word) {
+    public void dfs(String[] arr, String str, int depth) {
 
-        if(str.length() > 5) return;    // 모음의 최대갯수인 5자를 넘어가면 return
-        list.add(str);                  // 그렇지 않은 경우 단어사전 add
-        if(word.equals(str)) return;    // 만약 찾는 str을 발견시 dfs 종료
+        // 5글자를 넘어가면 return
+        if(depth == 5) return;
+        list.add(str);  // 사전 추가
 
+        // 깊이우선탐색하여 글자를 쌓아간다
         for(int i=0; i<arr.length; i++) {
-            dfs(str + arr[i], arr, word);   // 재귀 호출 하면서 단어사전을 채워간다.
+            dfs(arr, str + arr[i], depth+1);
         }
     }
 }
