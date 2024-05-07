@@ -1,44 +1,39 @@
 import java.util.*;
 
 class Solution {
-    public static HashSet<Integer> set = new HashSet<>();   // 경우의 수를 담아둘 set (중복은 알아서 허용x)
-
+    public String[] nums;
+    public Set<Integer> primes;
     public int solution(String numbers) {
-        int answer = 0;
 
-        // 재귀호출을 통해 경우의 수를 set에 add
-        recursive("", numbers);
+        nums = numbers.split("");
+        primes = new HashSet<>();
 
-        // set에 있는 수 중 소수인 경우 answer에 값을 더함
-        for(int i:set) {
-            if(isPrime(i)) answer++;
-        }
-        return answer;
+        boolean[] visited = new boolean[nums.length];
+        dfs(visited, "");
+        
+        return primes.size();
     }
 
-    public static void recursive(String comb, String others) {
-        // 빈값이 아닌 경우 comb에 있는 값을 set에 넣어준다. 
-        if(!comb.equals(""))
-            set.add(Integer.parseInt(comb));
+    public void dfs(boolean[] visited, String num) {
 
-        // 숫자 하나에 하나씩 붙여가며 재귀호출하여 set에 add 해줌
-        // ex) 1 
-        for(int i=0; i<others.length(); i++) {
-            recursive(String.valueOf(comb + others.charAt(i)), others.substring(0, i) + others.substring(i+1));
+        if(!num.equals("") && isPrime(Integer.parseInt(num))) {
+            primes.add(Integer.parseInt(num));
+        }
+
+        for(int i=0; i<nums.length; i++) {
+            if(!visited[i]) {
+                visited[i] = true;
+                dfs(visited, num + nums[i]);
+                visited[i] = false;
+            }
         }
     }
 
-    public static boolean isPrime(int num) {
-        // 2보다 작은 경우 소수가 아니므로 false 리턴
-        if(num < 2)
-            return false;
-
-        // 2부터 제곱근까지 나눠지는 수가 있으면 false 리턴
+    public boolean isPrime(int num) {
+        if(num < 2) return false;
         for(int i=2; i<=Math.sqrt(num); i++) {
-            if(num % i == 0) return false;
+            if(num%i == 0) return false;
         }
-
-        // 위의 경우 해당하지 않는 경우 소수로 true 리턴
         return true;
     }
 }
