@@ -1,25 +1,20 @@
 class Solution {
     public int solution(String skill, String[] skill_trees) {
-        int answer = skill_trees.length;
-        int len = skill.length();
+        int answer = 0;
 
         for(int i=0; i<skill_trees.length; i++) {
-            // 문자별 인덱스 저장
-            int[] cnt = new int[len];
-            for(int j=0; j<len; j++) {
-                cnt[j] = skill_trees[i].indexOf(skill.charAt(j));
-            }
-            
-            for(int j=0; j<len - 1; j++) {
-                // 앞선 스킬이 없는데 이후 스킬이 있거나
-                // 앞선 스킬이 이후 스킬보다 인덱스가 높은 경우
-                if((cnt[j] == -1 && cnt[j+1] > -1)
-                    || (cnt[j] > cnt[j+1] && cnt[j+1] > -1)) {
-                        answer--;
-                        break;
+            String tmp = skill_trees[i];
+            for(int j=0; j<skill_trees[i].length(); j++) {
+                String s = skill_trees[i].substring(j, j+1);
+                // 없는 경우 제거
+                if(!skill.contains(s)) {
+                    tmp = tmp.replace(s, "");
                 }
             }
+            // 남은 문자열이 skill에 포함되는지 확인
+            if(skill.indexOf(tmp) == 0) answer++;
         }
+
         return answer;
     }
 }
