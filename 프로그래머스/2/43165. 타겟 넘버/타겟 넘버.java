@@ -1,22 +1,22 @@
 class Solution {
-    public int count = 0;
+    public int answer;
     public int solution(int[] numbers, int target) {
+        answer = 0;
+        dfs(numbers, target, 0, 0);
 
-        // 깊이우선탐색(DFS) - 재귀로 호출(stack)
-        dfs(numbers, 0, target, 0);
-        return count;
+        return answer;
     }
 
-    public void dfs(int[] numbers, int depth, int target, int sum) {
-        // 마지막 depth 가면 return
+    public void dfs(int[] numbers, int target, int depth, int total) {
+
         if(depth == numbers.length) {
-            // 타겟값이면 count++
-            if(target == sum) count++;
+            if (total == target) {
+                answer++;
+            }
             return;
         }
 
-        // 합/차 각각 dfs 접근
-        dfs(numbers, depth+1, target, sum + numbers[depth]);
-        dfs(numbers, depth+1, target, sum - numbers[depth]);
+        dfs(numbers, target, depth+1, total + numbers[depth]);
+        dfs(numbers, target, depth+1, total + (numbers[depth] * -1));
     }
 }
