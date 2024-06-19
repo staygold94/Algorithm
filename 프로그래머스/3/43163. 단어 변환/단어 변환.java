@@ -4,18 +4,18 @@ class Solution {
     public int solution(String begin, String target, String[] words) {
 
         // 초기화
-        answer = 0;
+        answer = Integer.MAX_VALUE; // 최솟값을 구해야 하므로 최댓값으로 초기화
         visited = new boolean[words.length];
 
         // dfs
         dfs(begin, target, words, 0);
 
-        return answer;
+        return answer == Integer.MAX_VALUE ? 0 : answer;
     }
 
     public void dfs(String begin, String target, String[] words, int depth) {
         if(begin.equals(target)) {
-            answer = depth;
+            answer = Math.min(answer, depth);   // 구한 값이 최솟값이 아닐 수 있기 때문에 Math.min 활용
             return;
         }
 
