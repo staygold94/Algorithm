@@ -2,13 +2,14 @@ import java.util.*;
 
 class Solution {
     public int solution(int[] nums) {
-        int max = nums.length / 2;   // 가지고 갈 수 있는 최대 종류 (다 다른 걸 고른다면)
-
-        Set<Integer> set = new HashSet<>();
-        for(int i:nums) {
+        HashSet<Integer> set = new HashSet<>();
+        
+        for(int i : nums) {
             set.add(i);
         }
 
-        return set.size() > max ? max : set.size();
+        // 종류가 n/2보다 크면 종류 개수 : n/2
+        // 종류가 n/2보다 작거나 같으면 종류 개수 : set.size
+        return set.size() > nums.length/2 ? nums.length/2 : set.size();
     }
 }
