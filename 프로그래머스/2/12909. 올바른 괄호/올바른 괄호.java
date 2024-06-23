@@ -1,20 +1,18 @@
-import java.util.*;
-
 class Solution {
     boolean solution(String s) {
+
+        StringBuilder sb = new StringBuilder();
         
-        Stack<Character> stack = new Stack<>();
         for(int i=0; i<s.length(); i++) {
             char ch = s.charAt(i);
-
             if(ch == '(') {
-                stack.push(ch);
+                sb.append(ch);
             } else {
-                if(stack.isEmpty()) return false;
-                else stack.pop();
+                if(sb.length() != 0) sb.deleteCharAt(sb.length() - 1);
+                else return false;
             }
         }
 
-        return stack.isEmpty() ? true : false;
+        return sb.length() == 0 ? true : false;
     }
 }
