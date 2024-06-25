@@ -2,37 +2,38 @@ import java.util.*;
 
 class Solution {
     public int solution(int[][] jobs) {
-        // 작업배열을 들어오는 순으로 정렬
-        Arrays.sort(jobs, (a, b) -> (a[0] - b[0]));
+        int answer = 0;
+        int time = 0;
+        int idx = 0;
+        int cnt = 0;
+        int len = jobs.length;
 
-        // 우선순위 큐 생성 (소요시간에 따라 정렬)
-        PriorityQueue<int[]> queue = new PriorityQueue<>((o1, o2) -> (o1[1] - o2[1]));
-        int idx = 0;    // jobs idx
-        int cnt = 0;    // 작업완료된 job 개수
-        int time = 0;   // 현재 시간
-        int answer = 0; // 소요 시간
+        // 도착 순서대로 정렬
+        Arrays.sort(jobs, (o1, o2) -> o1[0] - o2[0]);
 
-        // 배열 인덱스를 다 읽지 않았거나 큐가 비어있지 않은 경우 반복문 실행
-        while(cnt < jobs.length) {
+        // 소요시간대로 정렬하는 우선순위큐
+        PriorityQueue<int[]> queue = new PriorityQueue<>((o1, o2) -> o1[1] - o2[1]);
 
-            // 인덱스가 배열 길이를 넘지 않는 경우
-            // 이미 들어온 요청에 대해서 큐에 작업을 넣는다.
-            while(idx < jobs.length && time >= jobs[idx][0]) {
-                queue.add(jobs[idx++]);
+        // 요청이 모두 완료될 때까지
+        while(cnt < len) {
+
+            // 현재 시간 전에 도착한 요청이라면 큐에 넣는다
+            while(idx < len && jobs[idx][0] <= time) {
+                queue.offer(jobs[idx]);
+                idx++;
             }
-            // 큐에 값이 없는 경우 새로 들어오는 job의 도착시간을 현재 시간으로 맞춘다.
-            if(queue.isEmpty()) {
-                time = jobs[idx][0];
-            
-            // 큐에 값이 있는 경우 현재 시간에 작업시간을 더한다.
-            } else {
-                int[] job = queue.poll();
-                answer += time - job[0] + job[1];
-                time += job[1];
+
+            // 큐가 비어있지 않다면 가장 금방 끝나는 요청이 빠져나옵니다
+            if(!queue.isEmpty()) {
+                int[] arr = queue.poll();
+                time += arr[1];           // 현재 시간
+                answer += time - arr[0];  // 요청 ~ 완료시간 까지 누적
                 cnt++;
+            } else {
+                time = jobs[idx][0];
             }
         }
 
-        return answer / jobs.length;
+        return answer / len;
     }
 }
