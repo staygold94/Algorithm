@@ -1,29 +1,36 @@
 import java.util.*;
 
 class Solution {
-    List<String> list;
+    public String[] arr = {"A", "E", "I", "O", "U"};
+    public List<String> list;
+    public boolean found = false;   // 원하는 단어를 찾았는지 확인
+
     public int solution(String word) {
-        String[] arr = {"A", "E", "I", "O", "U"};
+        // 모음사전 초기화
         list = new ArrayList<>();
 
-        // 완전탐색 하여 사전 구성
-        for(int i=0; i<arr.length; i++) {
-            dfs(arr, arr[i], 0);    // 단어의 구성이 dfs에 가까운 형태이므로 dfs로 해결
-        }
+        dfs(word, "");
 
-        // 주어진 word 순서를 리턴하는 함수 indexOf 사용
-        return list.indexOf(word) + 1;
+        return list.size();
     }
 
-    public void dfs(String[] arr, String str, int depth) {
+    public void dfs(String word, String str) {
 
-        // 5글자를 넘어가면 return
-        if(depth == 5) return;
-        list.add(str);  // 사전 추가
-
-        // 깊이우선탐색하여 글자를 쌓아간다
-        for(int i=0; i<arr.length; i++) {
-            dfs(arr, str + arr[i], depth+1);
+        if(found || arr.length < str.length()) {
+            return;
         }
+
+        // 빈값이 아닌 경우 list 에 str 추가
+        if(!str.equals("")) {
+            list.add(str);
+            if(str.equals(word)) {
+                found = true;
+            }
+        }
+
+        for(int i=0; i<arr.length; i++) {
+            dfs(word, str + arr[i]);
+        }
+        
     }
 }
