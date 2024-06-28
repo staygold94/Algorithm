@@ -27,7 +27,7 @@ class Solution {
             graph.get(node1).remove((Integer)node2);
             graph.get(node2).remove((Integer)node1);
 
-            int netCnt = bfs(graph, n, node1);
+            int netCnt = dfs(graph, node1, new boolean[n+1]);
             int anotherCnt = n - netCnt;
 
             answer = Math.min(answer, Math.abs(netCnt - anotherCnt));
@@ -40,25 +40,17 @@ class Solution {
         return answer;
     }
 
-    public int bfs(List<List<Integer>> graph, int n, int startIdx) {
+    public int dfs(List<List<Integer>> graph, int startIdx, boolean[] visited) {
 
         int cnt = 0;
-        Queue<Integer> queue = new LinkedList<>();
-        boolean[] visited = new boolean[n+1];
-
-        queue.offer(startIdx);
-        visited[startIdx] = true;
         
-        while(!queue.isEmpty()) {
-            // 방문처리하고 네트워크수 추가
-            int num = queue.poll();
-            cnt++;
-            
-            for(int node : graph.get(num)) {
-                if(!visited[node]) {
-                    queue.offer(node);
-                    visited[node] = true;
-                }
+        // 현재 노드에 대한 방문처리, cnt 증가
+        visited[startIdx] = true;
+        cnt++;
+        
+        for(int node : graph.get(startIdx)) {
+            if(!visited[node]) {
+                cnt += dfs(graph, node, visited);
             }
         }
 
