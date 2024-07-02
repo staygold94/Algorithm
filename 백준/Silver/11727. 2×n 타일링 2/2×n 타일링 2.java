@@ -1,30 +1,19 @@
 import java.io.*;
 
 public class Main {
-
-    static Integer[] dp;
-    
     public static void main(String[] args) throws IOException {
-
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-
+        int mod = 10007;
         int n = Integer.parseInt(br.readLine());
-        dp = new Integer[1001];
-        dp[0] = 0;
+
+        int[] dp = new int[n+1];
         dp[1] = 1;
-        dp[2] = 3;
-        
+        if(n >= 2) dp[2] = 3;
+
         for(int i=3; i<=n; i++) {
-            recur(i);
+            dp[i] = (dp[i-1] + dp[i-2] * 2) % mod;
         }
-        System.out.println(recur(n));
-    }
 
-    public static int recur(int n) {
-
-        if(dp[n] == null) {
-            dp[n] = (dp[n-2] * 2 + dp[n-1]) % 10007;
-        }
-        return dp[n];
+        System.out.println(dp[n]);
     }
 }
