@@ -1,22 +1,19 @@
 class Solution {
-    public int answer;
+    public int answer = 0;
     public int solution(int[] numbers, int target) {
-        answer = 0;
+        
         dfs(numbers, target, 0, 0);
-
+        
         return answer;
     }
-
-    public void dfs(int[] numbers, int target, int depth, int total) {
-
-        if(depth == numbers.length) {
-            if (total == target) {
-                answer++;
-            }
+    
+    public void dfs(int[] numbers, int target, int now, int depth) {
+        if(numbers.length == depth) {
+            if(now == target) answer++;
             return;
         }
-
-        dfs(numbers, target, depth+1, total + numbers[depth]);
-        dfs(numbers, target, depth+1, total + (numbers[depth] * -1));
+        
+        dfs(numbers, target, now - numbers[depth], depth + 1);
+        dfs(numbers, target, now + numbers[depth], depth + 1);
     }
 }
