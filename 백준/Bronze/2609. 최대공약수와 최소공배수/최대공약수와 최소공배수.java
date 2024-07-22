@@ -18,18 +18,19 @@ public class Main {
     public static void findMaxDivisor(int a, int b) {
 
         // 최대공약수 찾으면 값 갱신하고 리턴
-        if(a == b) {
-            maxDivisor = a;
-            return;
+        while(b != 0) {
+            int r = a % b;
+            a = b;
+            b = r;
         }
-
-        findMaxDivisor(Math.max(a, b) - Math.min(a, b), Math.min(a, b));
+        maxDivisor = a;
+        return;
     }
 
     // 최소공배수 구하기
     public static void findMinMultiple(int a, int b) {
 
-        minMultiple = maxDivisor * (a / maxDivisor) * (b / maxDivisor);
+        minMultiple = a * b / maxDivisor;
 
         return;
     }
