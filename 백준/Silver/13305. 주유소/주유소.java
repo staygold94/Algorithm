@@ -13,20 +13,15 @@ public class Main {
         costs = Arrays.stream(br.readLine().split(" ")).mapToInt(Integer::parseInt).toArray();
 
         long total = 0L;    // 총금액
-        int nowIdx = 0;     // 현재 위치
+        int min = costs[0];     // 현재 위치
 
-        while(nowIdx < n-1) {
-
+        for(int i=0; i<n-1; i++) {
             // 다음 도시까지 충전
-            total += (distances[nowIdx] * costs[nowIdx]);
+            total += (long)distances[i] * min;
 
-            // 마지막 도시 전까지 다음 도시가 더 비싼 경우 지금 충전
-            int nextIdx = nowIdx+1;
-            while(nextIdx < n-1 &&  costs[nextIdx] > costs[nowIdx]) {
-                total += (distances[nextIdx] * costs[nowIdx]);
-                nextIdx++;
+            if(costs[i+1] < min) {
+                min = costs[i+1];
             }
-            nowIdx = nextIdx;
         }
         System.out.println(total);
     }
