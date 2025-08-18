@@ -10,18 +10,21 @@ public class Main {
         n = Integer.parseInt(st.nextToken());
         m = Integer.parseInt(st.nextToken());
         sb = new StringBuilder();
-        dfs("", 0);
+
+        backtrack(0, "");
+
         System.out.print(sb.toString());
     }
 
-    public static void dfs(String str, int depth) {
+    public static void backtrack(int depth, String str) {
+
         if(depth == m) {
             sb.append(str + "\n");
             return;
         }
 
         for(int i=1; i<=n; i++) {
-            dfs(str + i + " ", depth+1);
+            backtrack(depth+1, str + i + " ");
         }
     }
 }
